@@ -21,3 +21,20 @@ describe("Urgency function", () => {
   );
 });
 
+  it("should return CRITICAL for critical + 6 days => 80", () => {
+  const t: Ticket = {
+    id: 2,
+    title: "x",
+    description: "x",
+    priority: "critical",
+    status: "open",
+    createdAt: new Date("2025-01-09T10:00:00.000Z").toISOString(),
+  };
+
+  const out = urgency(t, now);
+  expect(out.urgencyScore).toBe(80);
+  expect(out.urgencyLevel).toBe(
+    "Critical. Immediate attention required."
+  );
+});
+
