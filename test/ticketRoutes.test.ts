@@ -2,6 +2,8 @@ import request from "supertest";
 import app from "../src/app";
 import { resetForTests } from "../src/api/v1/services/ticketService";
 
+process.env.TEST_NOW = "2025-01-15T10:00:00.000Z";
+
 describe("Ticket API routes", () => {
   beforeEach(() => resetForTests(new Date("2025-01-15T10:00:00.000Z")));
 
@@ -17,7 +19,7 @@ describe("Ticket API routes", () => {
     expect(res.body.message).toBe("Tickets retrieved");
     expect(res.body.count).toBeGreaterThan(0);
   });
-
+  
   it("should get one ticket by id", async () => {
     const res = await request(app).get("/api/v1/tickets/1");
     expect(res.status).toBe(200);

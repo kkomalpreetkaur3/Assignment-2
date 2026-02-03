@@ -27,10 +27,14 @@ export interface UrgOut {
 const priList: Pri[] = ["critical", "high", "medium", "low"];
 const statList: Stat[] = ["open", "in-progress", "resolved"];
 
-let list: Ticket[] = makeTickets(new Date());
+const nowForApi = (): Date => {
+  const v = process.env.TEST_NOW;
+  return v ? new Date(v) : new Date();
+};
 
-// for tests
-export const resetForTests = (now: Date = new Date()): void => {
+let list: Ticket[] = makeTickets(nowForApi());
+
+export const resetForTests = (now: Date = nowForApi()): void => {
   list = makeTickets(now);
 };
 
@@ -54,7 +58,7 @@ export const addOne = (body: NewTicket): Ticket => {
     description: body.description,
     priority: body.priority,
     status: "open",
-    createdAt: new Date().toISOString(),
+    createdAt: nowForApi().toISOString(), 
   };
 
   list.push(t);
@@ -80,7 +84,7 @@ const ageDays = (iso: string, now: Date): number => {
   return days < 0 ? 0 : days;
 };
 
-export const urgency = (t: Ticket, now: Date = new Date()): UrgOut => {
+export const urgency = (t: Ticket, now: Date = nowForApi()): UrgOut => {
   const age = ageDays(t.createdAt, now);
   const score = t.status === "resolved" ? 0 : base(t.priority) + age * 5;
 
