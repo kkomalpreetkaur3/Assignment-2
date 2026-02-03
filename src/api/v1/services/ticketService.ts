@@ -77,6 +77,42 @@ export const removeOne = (id: number): boolean => {
   return i === -1 ? false : !!list.splice(i, 1);
 };
 
+const base = (p: Pri): number =>
+  p === "critical" ? 50 : p === "high" ? 30 : p === "medium" ? 20 : 10;
+
+const ageDays = (iso: string): number => {
+  const diff = Date.now() - new Date(iso).getTime();
+  const days = Math.floor(diff / 86400000);
+  return days < 0 ? 0 : days;
+};
+
+export const urgency = (t: Ticket): UrgOut => {
+  const age = ageDays(t.createdAt);
+  const score = t.status === "resolved" ? 0 : base(t.priority) + age * 5;
+
+  const level =
+    t.status === "resolved"
+      ? "Minimal. Ticket resolved."
+      : score < 30
+      ? "Low urgency. Address when capacity allows."
+      : score < 55
+      ? "Moderate. Schedule for attention."
+      : score < 80
+      ? "High urgency. Prioritize resolution."
+      : "Critical. Immediate attention required.";
+
+  return {
+    id: t.id,
+    title: t.title,
+    priority: t.priority,
+    status: t.status,
+    createdAt: t.createdAt,
+    ticketAge: age,
+    urgencyScore: score,
+    urgencyLevel: level,
+  };
+};
+
 // basic functions
 export const getAll = (): Ticket[] => structuredClone(list);
 export const getOne = (id: number): Ticket | undefined => list.find(t => t.id === id);
