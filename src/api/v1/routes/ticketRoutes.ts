@@ -17,4 +17,4 @@ r.put("/tickets/:id", updateTicket);
 r.delete("/tickets/:id", deleteTicket);
 r.get("/tickets/:id/urgency", getUrgency);
 
-
+export 
