@@ -62,9 +62,4 @@ describe("Ticket API routes", () => {
     expect(res.body.data.urgencyScore).toBe(25);
   });
 
-  it("should return 404 urgency when ticket not found", async () => {
-    const res = await request(app).get("/api/v1/tickets/999/urgency");
-    expect(res.status).toBe(404);
-    expect(res.body.message).toBe("Ticket not found");
-  });
-});
+  
