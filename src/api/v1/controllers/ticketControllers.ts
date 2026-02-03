@@ -43,9 +43,14 @@ export const createTicket = (req: Request, res: Response): void => {
     ? res.status(HTTP_STATUS.BAD_REQUEST).json({ message: err })
     : res.status(HTTP_STATUS.CREATED).json({
         message: "Ticket created",
-        data: svc.addOne({ title, description, priority }),
+        data: svc.addOne({
+          title: title as string,
+          description: description as string,
+          priority: priority as any,
+        }),
       });
 };
+
 
 export const updateTicket = (req: Request, res: Response): void => {
   const id = Number(req.params.id);
