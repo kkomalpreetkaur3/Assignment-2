@@ -13,14 +13,14 @@ export const getAllTickets = (req: Request, res: Response): void => {
 
 export const getTicket = (req: Request, res: Response): void => {
   const id = Number(req.params.id);
-  const t = svc.getOne(id);
+  const ticket = svc.getOne(id);
 
-  if (!t) {
+  if (!ticket) {
     res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
     return;
   }
 
-  res.status(HTTP_STATUS.OK).json({ message: "Ticket retrieved", data: t });
+  res.status(HTTP_STATUS.OK).json({ message: "Ticket retrieved", data: ticket });
 };
 
 export const createTicket = (req: Request, res: Response): void => {
@@ -74,19 +74,19 @@ export const updateTicket = (req: Request, res: Response): void => {
     return;
   }
 
-  const t = svc.editOne(id, {
+  const ticket = svc.editOne(id, {
     title,
     description,
     priority: priority as any,
     status: status as any,
   });
 
-  if (!t) {
+  if (!ticket) {
     res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
     return;
   }
 
-  res.status(HTTP_STATUS.OK).json({ message: "Ticket updated", data: t });
+  res.status(HTTP_STATUS.OK).json({ message: "Ticket updated", data: ticket });
 };
 
 export const deleteTicket = (req: Request, res: Response): void => {
@@ -100,12 +100,12 @@ export const deleteTicket = (req: Request, res: Response): void => {
 
 export const getUrgency = (req: Request, res: Response): void => {
   const id = Number(req.params.id);
-  const t = svc.getOne(id);
+  const ticket = svc.getOne(id);
 
-  t
+  ticket
     ? res.status(HTTP_STATUS.OK).json({
         message: "Ticket urgency calculated",
-        data: svc.urgency(t),
+        data: svc.urgency(ticket),
       })
     : res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
 };

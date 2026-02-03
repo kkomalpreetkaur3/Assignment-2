@@ -8,13 +8,13 @@ import {
   getUrgency,
 } from "../controllers/ticketControllers";
 
-const r = Router();
+const router = Router();
 
-r.get("/tickets", getAllTickets);
-r.get("/tickets/:id", getTicket);
-r.post("/tickets", createTicket);
-r.put("/tickets/:id", updateTicket);
-r.delete("/tickets/:id", deleteTicket);
-r.get("/tickets/:id/urgency", getUrgency);
+router.get("/tickets", getAllTickets);
+router.get("/tickets/:id", getTicket);
+router.post("/tickets", createTicket);
+router.put("/tickets/:id", updateTicket);
+router.delete("/tickets/:id", deleteTicket);
+router.get("/tickets/:id/urgency", getUrgency);
 
-export default r;
+export default router;
