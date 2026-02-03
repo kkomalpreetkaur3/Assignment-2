@@ -51,6 +51,32 @@ let list: Ticket[] = [
   { id: 7, title: "Dark mode toggle broken", description: "Dark mode doesn't persist after refresh", priority: "medium", status: "resolved", createdAt: daysAgo(10) },
 ];
 
+export const addOne = (body: NewTicket): Ticket => {
+  const nextId = list.length > 0 ? Math.max(...list.map(t => t.id)) + 1 : 1;
+
+  const t: Ticket = {
+    id: nextId,
+    title: body.title,
+    description: body.description,
+    priority: body.priority,
+    status: "open",
+    createdAt: new Date().toISOString(),
+  };
+
+  list.push(t);
+  return structuredClone(t);
+};
+
+export const editOne = (id: number, body: EditTicket): Ticket | undefined => {
+  const i = list.findIndex(t => t.id === id);
+  return i === -1 ? undefined : (list[i] = { ...list[i], ...body });
+};
+
+export const removeOne = (id: number): boolean => {
+  const i = list.findIndex(t => t.id === id);
+  return i === -1 ? false : !!list.splice(i, 1);
+};
+
 // basic functions
 export const getAll = (): Ticket[] => structuredClone(list);
 export const getOne = (id: number): Ticket | undefined => list.find(t => t.id === id);
