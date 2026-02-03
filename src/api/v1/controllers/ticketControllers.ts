@@ -103,4 +103,4 @@ export const getUrgency = (req: Request, res: Response): void => {
         data: svc.urgency(t),
       })
     : res.status(HTTP_STATUS.NOT_FOUND).json({ message: "Ticket not found" });
-
+};
